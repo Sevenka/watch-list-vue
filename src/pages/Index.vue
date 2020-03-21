@@ -4,61 +4,91 @@
       @selectOption="applyFilter"
       :name="$t('watches.filters.country.name')"
       :defaultOption="$t('watches.filters.country.deaultOption')"
-      :options="options"
+      :options="countriesFilterList"
       type="country"
     />
     <FilterSelect
       @selectOption="applyFilter"
       :name="$t('watches.filters.rmc.name')"
       :defaultOption="$t('watches.filters.rmc.deaultOption')"
-      :options="options"
+      :options="rmcsFilterList"
       type="rmc"
     />
+    <MainTable :itemsList="filteredWatchesList" :tableColumns="tableColumns" />
   </div>
 </template>
 
 <script>
 import FilterSelect from "../components/filters/FilterSelect";
+import MainTable from "../components/tables/MainTable";
 
 export default {
   components: {
-    FilterSelect
+    FilterSelect,
+    MainTable
   },
   data() {
     return {
+      loading: false,
       filters: {
         country: "",
         rmc: ""
       },
-      options: [
+      countriesFilterList: [],
+      rmcsFilterList: [],
+      watchesList: [],
+      tableColumns: [
         {
-          value: "Option1",
-          label: "Option1"
+          prop: "country",
+          label: this.$t("watches.tableColumns.country")
         },
         {
-          value: "Option2",
-          label: "Option2"
+          prop: "quantity",
+          label: this.$t("watches.tableColumns.quantity")
         },
         {
-          value: "Option3",
-          label: "Option3"
-        },
-        {
-          value: "Option4",
-          label: "Option4"
-        },
-        {
-          value: "Option5",
-          label: "Option5"
+          prop: "rmc",
+          label: this.$t("watches.tableColumns.rmc")
         }
-      ],
-      watches: []
+      ]
     };
+  },
+  computed: {
+    filteredWatchesList() {
+      return this.watchesList.filter(watch => {
+        return (
+          watch.country.includes(this.filters.country) &&
+          watch.rmc.includes(this.filters.rmc)
+        );
+      });
+    }
+  },
+  created() {
+    this.getWatchesList();
   },
   methods: {
     applyFilter(options) {
       const { selectedOption, type } = options;
       this.filters[type] = selectedOption;
+    },
+    getWatchesList() {
+      fetch(
+        "http://my-json-server.typicode.com/sevenka/watch-list-vue/watchesList"
+      )
+        .then(response => response.json())
+        .then(data => {
+          this.watchesList = data;
+          this.countriesFilterList = data.map(watch => {
+            return {
+              value: watch.country
+            };
+          });
+          this.rmcsFilterList = data.map(watch => {
+            return {
+              value: watch.rmc
+            };
+          });
+        });
     }
   }
 };
