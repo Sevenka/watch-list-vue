@@ -1,3 +1,31 @@
 {
-  "message": "hello i18n !!"
+  "watches": {
+    "filters": {
+      "country": {
+        "name": "Country",
+        "defaultValue": "All Countries"
+      },
+      "rmc": {
+        "name": "RMC",
+        "defaultValue": "All RMCs"
+      }
+    },
+    "tableColumns": {
+      "country": "Country",
+      "quantity": "Quantity",
+      "rmc": "RMC"
+    },
+    "addItemModal": {
+      "title": "Confirmation",
+      "content": "Are you sure that your order will include:",
+      "item": {
+        "descriptionText": "Watches with RMC:",
+        "priceText": "with price"
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "yes": "Yes"
+      }
+    }
+  }
 }
