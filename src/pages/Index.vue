@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading.fullscreen.lock="loading">
     <FilterSelect
       @selectOption="applyFilter"
       :name="$t('watches.filters.country.name')"
@@ -14,22 +14,38 @@
       :options="rmcsFilterList"
       type="rmc"
     />
-    <MainTable :itemsList="filteredWatchesList" :tableColumns="tableColumns" />
+    <MainTable
+      @row-click="confirmAddToOrder"
+      :itemsList="filteredWatchesList"
+      :tableColumns="tableColumns"
+    />
+    <AddItemDialog
+      v-if="selectedWatch"
+      @on-cancel="handleCancel"
+      @on-yes="handleYes"
+      :dialogVisible="isAddToOrderDialogShown"
+      :title="$t('watches.addItemModal.title')"
+      :content="$t('watches.addItemModal.content', { rmc: selectedWatch.rmc, price: selectedWatch.price })"
+      :cancelTitle="$t('watches.addItemModal.actions.cancel')"
+      :yesTitle="$t('watches.addItemModal.actions.yes')"
+    />
   </div>
 </template>
 
 <script>
 import FilterSelect from "../components/filters/FilterSelect";
 import MainTable from "../components/tables/MainTable";
+import AddItemDialog from "../components/dialogs/AddItemDialog";
 
 export default {
   components: {
     FilterSelect,
-    MainTable
+    MainTable,
+    AddItemDialog
   },
   data() {
     return {
-      loading: false,
+      loading: true,
       filters: {
         country: "",
         rmc: ""
@@ -50,7 +66,9 @@ export default {
           prop: "rmc",
           label: this.$t("watches.tableColumns.rmc")
         }
-      ]
+      ],
+      selectedWatch: null,
+      isAddToOrderDialogShown: false
     };
   },
   computed: {
@@ -72,9 +90,11 @@ export default {
       this.filters[type] = selectedOption;
     },
     getWatchesList() {
+      this.loading = true;
       fetch(
         "http://my-json-server.typicode.com/sevenka/watch-list-vue/watchesList"
       )
+        .finally(() => (this.loading = false))
         .then(response => response.json())
         .then(data => {
           this.watchesList = data;
@@ -89,6 +109,30 @@ export default {
             };
           });
         });
+    },
+    confirmAddToOrder(watch) {
+      this.selectedWatch = watch;
+      this.setShowAddToOrderDialog(true);
+    },
+    setShowAddToOrderDialog(status) {
+      this.isAddToOrderDialogShown = status;
+    },
+    handleCancel() {
+      this.selectedWatch = null;
+      this.setShowAddToOrderDialog(false);
+    },
+    handleYes() {
+      this.loading = true;
+      this.selectedWatch = null;
+      this.setShowAddToOrderDialog(false);
+      setTimeout(() => {
+        this.$notify({
+          title: this.$t("watches.notification.success.title"),
+          message: this.$t("watches.notification.success.message"),
+          type: "success"
+        });
+        this.loading = false;
+      }, 1000);
     }
   }
 };

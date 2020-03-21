@@ -22,6 +22,12 @@
         "cancel": "Cancel",
         "yes": "Yes"
       }
+    },
+    "notification": {
+      "success": {
+        "title": "Success",
+        "message": "Item was successfully added to the order!"
+      }
     }
   }
 }
