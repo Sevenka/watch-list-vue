@@ -15,18 +15,29 @@
       "quantity": "Quantity",
       "rmc": "RMC"
     },
-    "addItemModal": {
-      "title": "Confirmation",
-      "content": "Are you sure that your order will include: Watches with RMC: {rmc} with price {price}",
-      "actions": {
-        "cancel": "Cancel",
-        "yes": "Yes"
+    "descriptionWithPrice": "Watches with RMC: {rmc} with price ${price}"
+  },
+  "notifications": {
+    "loadItems": {
+      "error": {
+        "title": "Error",
+        "message": "An error occured while loading items!"
       }
     },
-    "notification": {
+    "addItem": {
       "success": {
         "title": "Success",
         "message": "Item was successfully added to the order!"
+      }
+    }
+  },
+  "modals": {
+    "addItem": {
+      "title": "Confirmation",
+      "content": "Are you sure that your order will include: ",
+      "actions": {
+        "cancel": "Cancel",
+        "yes": "Yes"
       }
     }
   }

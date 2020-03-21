@@ -1,0 +1,4 @@
+/* element-ui overrides */
+.el-table__row:hover {
+  cursor: pointer;
+}

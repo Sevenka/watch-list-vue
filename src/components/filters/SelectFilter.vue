@@ -1,6 +1,6 @@
 <template>
-  <div>
-    {{ name }}
+  <div class="filter">
+    <span class="filter-title">{{ name }}</span>
     <el-select
       v-model="selectedOption"
       @change="selectOption"
@@ -8,7 +8,7 @@
       filterable
       clearable
     >
-      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+      <el-option v-for="item in options" :key="item" :label="item" :value="item" />
     </el-select>
   </div>
 </template>
@@ -37,3 +37,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.filter {
+  margin-bottom: 1rem;
+}
+.filter-title {
+  margin-right: 1rem;
+}
+</style>
