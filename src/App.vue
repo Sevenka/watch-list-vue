@@ -1,9 +1,16 @@
 <template>
-  <div id="app"></div>
+  <div id="app">
+    <Index />
+  </div>
 </template>
 
 <script>
+import Index from "./pages/Index";
+
 export default {
-  name: "App"
+  name: "app",
+  components: {
+    Index
+  }
 };
 </script>

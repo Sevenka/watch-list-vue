@@ -3,11 +3,11 @@
     "filters": {
       "country": {
         "name": "Country",
-        "defaultValue": "All Countries"
+        "deaultOption": "All Countries"
       },
       "rmc": {
         "name": "RMC",
-        "defaultValue": "All RMCs"
+        "deaultOption": "All RMCs"
       }
     },
     "tableColumns": {
@@ -17,11 +17,7 @@
     },
     "addItemModal": {
       "title": "Confirmation",
-      "content": "Are you sure that your order will include:",
-      "item": {
-        "descriptionText": "Watches with RMC:",
-        "priceText": "with price"
-      },
+      "content": "Are you sure that your order will include: Watches with RMC: {rmc} with price {price}",
       "actions": {
         "cancel": "Cancel",
         "yes": "Yes"
